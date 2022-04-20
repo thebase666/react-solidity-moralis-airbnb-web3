@@ -8,6 +8,7 @@ import RentalsMap from "../components/RentalsMap";
 import { useState, useEffect } from "react";
 import { useMoralis, useWeb3ExecuteFunction } from "react-moralis";
 import User from "../components/User";
+import toast, { Toaster } from "react-hot-toast";
 
 const Rentals = () => {
   const { state: searchFilters } = useLocation();
@@ -19,30 +20,45 @@ const Rentals = () => {
   const dispatch = useNotification();
 
   const handleSuccess = () => {
-    dispatch({
-      type: "success",
-      message: `Nice! You are going to ${searchFilters.destination}!!`,
-      title: "Booking Succesful",
-      position: "topL",
+    toast("HOORAY... You Successfully Booked!", {
+      duration: 8000,
+      style: {
+        background: "green",
+        color: "white",
+        fontWeight: "bolder",
+        fontFamily: "Poppins",
+        fontSize: "17px",
+        padding: "20px",
+      }
     });
   };
 
   const handleError = (msg) => {
-    dispatch({
-      type: "error",
-      message: `${msg}`,
-      title: "Booking Failed",
-      position: "topL",
-    });
+
+    toast(`${msg}`, {
+      style: {
+        background: "red",
+        color: "white",
+        fontWeight: "bolder",
+        fontFamily: "Poppins",
+        fontSize: "16px",
+        padding: "20px",
+      }
+    })
   };
 
   const handleNoAccount = () => {
-    dispatch({
-      type: "error",
-      message: `You need to connect your wallet to book a rental`,
-      title: "Not Connected",
-      position: "topL",
-    });
+
+    toast("You need to connect your wallet to book a rental", {
+      style: {
+        background: "red",
+        color: "white",
+        fontWeight: "bolder",
+        fontFamily: "Poppins",
+        fontSize: "16px",
+        padding: "20px",
+      }
+    })
   };
 
 
@@ -125,6 +141,7 @@ const Rentals = () => {
 
   return (
     <>
+      <Toaster position="top-left" />
       <div className="topBanner">
         <div>
           <Link to="/">
@@ -211,9 +228,9 @@ const Rentals = () => {
               );
             })}
         </div>
-        <div className="rentalsContentR">
+        {/* <div className="rentalsContentR">
           <RentalsMap locations={coOrdinates} setHighLight={setHighLight} />
-        </div>
+        </div> */}
       </div>
     </>
   );
